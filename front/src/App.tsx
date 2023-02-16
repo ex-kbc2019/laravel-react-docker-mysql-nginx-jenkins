@@ -2,11 +2,13 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { ExampleComponent } from "./components/ExampleComponent";
+import { GoogleLoginButton } from "./components/GoogleLoginButton";
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <GoogleLoginButton />
                 <ExampleComponent />
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
