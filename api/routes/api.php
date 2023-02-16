@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExampleController;
+use App\Http\Controllers\AuthenticateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/example', ExampleController::class);
+
+Route::get('/login/google', [AuthenticateController::class, 'redirectToGoogle']);Route::get('/login/google/callback', [AuthenticateController::class, 'handleGoogleCallback']);
