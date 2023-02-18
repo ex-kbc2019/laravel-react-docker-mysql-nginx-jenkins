@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticateController extends Controller
@@ -21,6 +23,9 @@ class AuthenticateController extends Controller
         // Google 認証後の処理
         // あとで処理を追加しますが、とりあえず dd() で取得するユーザー情報を確認
         $gUser = Socialite::driver('google')->stateless()->user();
-        dd($gUser);
+        $login_user = User::where("email", $gUser->getEmail())->first();
+        Auth::login($login_user, true);
+        // dd(Auth::user());
+        return redirect("/");
     }
 }
