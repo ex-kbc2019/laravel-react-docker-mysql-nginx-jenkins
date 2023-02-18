@@ -28,3 +28,6 @@ mvweb:
 
 mvdb:
 	docker-compose exec db sh
+
+f:
+	docker-compose exec front yarn prettier --write .
