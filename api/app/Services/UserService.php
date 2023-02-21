@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
-    public function __construct(private ?UserRepository $_userRepository, private ?SocialiteRepository $_socialiteRepository)
+    public function __construct(private ?UserRepository $_userRepository = null, private ?SocialiteRepository $_socialiteRepository = null)
     {
     }
 

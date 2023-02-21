@@ -2,30 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Services\SocialiteService;
+use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticateController extends Controller
 {
-    public function redirectToGoogle()
+
+    public function __construct(private ?SocialiteService $_socialiteService = null, private ?UserService $_userService = null)
     {
-        // Google へのリダイレクトURLを返す
-        $redirectUrl = Socialite::driver("google")->redirect()->getTargetUrl();
+    }
+
+    /**
+     * function returning redirect url of other service
+     *
+     * @return JsonResponse
+     */
+    public function redirectToGoogle(): JsonResponse
+
+    {
+        $redirectUrl = $this->_socialiteService->getRedirectUrl("google");
         return response()->json([
             'redirect_url' => $redirectUrl,
         ]);
     }
 
-    public function handleGoogleCallback()
+    /**
+     * function logging in to this app with google
+     *
+     * @return RedirectResponse
+     */
+    public function handleGoogleCallback(): RedirectResponse
     {
-        // Google 認証後の処理
-        // あとで処理を追加しますが、とりあえず dd() で取得するユーザー情報を確認
-        $gUser = Socialite::driver('google')->stateless()->user();
-        $login_user = User::where("email", $gUser->getEmail())->first();
-        Auth::login($login_user, true);
-        // dd(Auth::user());
+        $this->_userService->loginBySocialite("google");
         return redirect("/");
     }
 }

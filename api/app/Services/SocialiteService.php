@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Repositories\SocialiteRepository;
 use Laravel\Socialite\Contracts\User;
-use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteService
 {
