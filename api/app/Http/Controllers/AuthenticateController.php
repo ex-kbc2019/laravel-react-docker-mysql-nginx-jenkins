@@ -2,41 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SocialiteService;
-use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Services\AuthenticateService;
+use App\Services\SocialiteService;
 
 class AuthenticateController extends Controller
 {
 
-    public function __construct(private ?SocialiteService $_socialiteService = null, private ?UserService $_userService = null)
-    {
+    public function __construct(
+        private ?SocialiteService $_socialiteService = null,
+        private ?AuthenticateService $_authenticateService = null
+    ){
     }
 
-    /**
-     * function returning redirect url of other service
-     *
-     * @return JsonResponse
-     */
-    public function redirectToGoogle(): JsonResponse
+     /**
+      * function returning redirect url of other service
+      *
+      * @param string $provider
+      * @return JsonResponse
+      */
+    public function redirectToOAuth(string $provider): JsonResponse
 
     {
-        $redirectUrl = $this->_socialiteService->getRedirectUrl("google");
+        $_redirectUrl = $this->_socialiteService->getRedirectUrl($provider);
         return response()->json([
-            'redirect_url' => $redirectUrl,
+            'redirect_url' => $_redirectUrl,
         ]);
     }
 
     /**
-     * function logging in to this app with google
+     * function logging in to this app with provider
      *
+     * @param string $provider
      * @return RedirectResponse
      */
-    public function handleGoogleCallback(): RedirectResponse
+    public function handleOAuthCallback(string $provider): RedirectResponse
     {
-        $this->_userService->loginBySocialite("google");
+        $this->_authenticateService->oAuthLogin($provider);
         return redirect("/");
     }
 }

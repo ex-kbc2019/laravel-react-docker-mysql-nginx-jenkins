@@ -7,13 +7,13 @@ use App\Models\User;
 class UserRepository
 {
     /**
-     * get user by email
+     * get user by params
      *
-     * @param string $email
+     * @param array $params
      * @return User
      */
-    public function getUserByEmail(string $email): User
+    public function findUserByParams(array $params): User
     {
-        return User::where("email", $email)->first();
+        return User::where($params[0], $params[1])->first();
     }
 }

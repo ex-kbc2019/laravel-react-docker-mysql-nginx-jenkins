@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/example', ExampleController::class);
 
-Route::get('/login/google', [AuthenticateController::class, 'redirectToGoogle']);Route::get('/login/google/callback', [AuthenticateController::class, 'handleGoogleCallback']);
+Route::get('/login/{provider}', [AuthenticateController::class, 'redirectToOAuth']);
+Route::get('/login/{provider}/callback', [AuthenticateController::class, 'handleOAuthCallback']);
